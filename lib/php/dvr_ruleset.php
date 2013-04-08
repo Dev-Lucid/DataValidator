@@ -8,6 +8,10 @@ class dvr_ruleset
 	public function __construct()
 	{
 	}
+	
+	function test()
+	{
+	}
 }
 
 ?>

@@ -10,6 +10,23 @@ $__dvr=array(
 
 class dvr
 {
+	function init($config = array())
+	{
+		global $__dvr;
+		foreach($config as $key=>$value)
+		{
+			if(is_array($value))
+			{
+				foreach($value as $subkey=>$subvalue)
+				{
+					$__dvr[$key][$subkey] = $subvalue;
+				}
+			}
+			else
+				$__dvr[$key] = $value;
+		}	
+	}
+	
 	public static function ruleset()
 	{
 		$ruleset = new dvr_ruleset();

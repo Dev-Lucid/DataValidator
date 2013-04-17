@@ -5,11 +5,28 @@
 
 global $__dvr;
 $__dvr=array(
-	'log_hook'=>null,
+	'hooks'=>array(),
 );
 
 class dvr
 {
+	function log($to_write)
+	{
+		global $__dvr;
+		if(isset($__dvr['hooks']['log']))
+		{
+			$to_write=(is_object($to_write) || is_array($to_write))?print_r($to_write,true):$to_write;
+			$__dvr['hooks']['log']('DVR: '.$to_write);
+		}
+	}
+	
+	function call_hook($hook,$p0=null,$p1=null,$p2=null,$p3=null,$p4=null,$p5=null,$p6=null)
+	{
+		global $__dvr;
+		if(isset($__dvr['hooks'][$hook]))
+			$__dvr['hooks'][$hook]($p0,$p1,$p2,$p3,$p4,$p5,$p6);
+	}
+	
 	function init($config = array())
 	{
 		global $__dvr;
@@ -19,12 +36,20 @@ class dvr
 			{
 				foreach($value as $subkey=>$subvalue)
 				{
-					$__dvr[$key][$subkey] = $subvalue;
+					if(is_numeric($subkey))
+						$__dvr[$key][] = $subvalue;
+					else
+						$__dvr[$key][$subkey] = $subvalue;
 				}
+
 			}
 			else
 				$__dvr[$key] = $value;
 		}	
+	}
+		
+	public static function deinit()
+	{
 	}
 	
 	public static function ruleset()
@@ -37,15 +62,6 @@ class dvr
 	{
 		$rule = new dvr_rule();
 		return $rule;
-	}
-	
-	function log($string_to_log)
-	{
-		global $__dvr;
-		if(!is_null($__dvr['log_hook']))
-		{
-			$__dvr['log_hook']('DVR: '.$string_to_log);
-		}
 	}
 }
 

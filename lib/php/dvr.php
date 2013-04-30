@@ -6,7 +6,12 @@
 global $__dvr;
 $__dvr=array(
 	'hooks'=>array(),
+	'rule_class'=>'dvr_rule',
 );
+
+include(__DIR__.'/dvr_ruleset.php');
+include(__DIR__.'/dvr_rule.php');
+include(__DIR__.'/dvr_field.php');
 
 class dvr
 {
@@ -54,14 +59,22 @@ class dvr
 	
 	public static function ruleset()
 	{
-		$ruleset = new dvr_ruleset();
+		$ruleset = new dvr_ruleset(func_get_args());
 		return $ruleset;
 	}
 	
-	public static function rule()
+	public static function rule($field)
 	{
-		$rule = new dvr_rule();
+		global $__dvr;
+		$rule = new $__dvr['rule_class']();
 		return $rule;
+	}
+	
+	public static function field($field)
+	{
+		global $__dvr;
+		$field = new dvr_field($field);
+		return $field;
 	}
 }
 

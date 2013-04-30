@@ -5,12 +5,25 @@
 
 class dvr_ruleset
 {
-	public function __construct()
+	public function __construct($fields)
 	{
+		$this->fields = $fields;
 	}
 	
-	function test()
+	function test($data)
 	{
+		$pass = true;
+		$errors = array();
+		foreach($this->fields as $field)
+		{
+			list($field_result,$field_errors) = $field->test($data);
+			if(!$field_result)
+			{
+				$pass = false;
+				$errors = array_merge($errors,$field_errors);
+			}
+		}
+		return array($pass,$errors);
 	}
 }
 

@@ -38,6 +38,19 @@ class dvr_field
 		}
 		return array($pass,$errors);
 	}
+	
+	function js()
+	{
+		$return = array(
+			'field'=>$this->field,
+			'rules'=>array()
+		);
+		foreach($this->rules as $rule)
+		{
+			$return['rules'][] = $rule->js();
+		}
+		return $return;
+	}
 }
 
 ?>

@@ -25,6 +25,16 @@ class dvr_ruleset
 		}
 		return array($pass,$errors);
 	}
+	
+	function js($form_name)
+	{
+		$return = array();
+		foreach($this->fields as $field)
+		{
+			$return[] = $field->js();
+		}
+		return 'dvr.rulesets[\''.addslashes($form_name).'\'] = '.json_encode($return).';';
+	}
 }
 
 ?>

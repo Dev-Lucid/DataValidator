@@ -64,6 +64,17 @@ class dvr_rule
 				break;
 		}
 	}
+	
+	function js()
+	{
+		return array(
+			'type'=>$this->type,
+			'message'=>$this->message,
+			'data1'=>$this->data1,
+			'data2'=>$this->data2,
+			'data3'=>$this->data3
+		);
+	}
 }
 
 ?>
